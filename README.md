@@ -9,7 +9,7 @@ A PHP based web interface an manage your Ansible inventory in a MySQL database a
 
 Nothing fancy is needed other than a normal, relatively up to date PHP & MySQL environment.  The UI is based on CodeIgniter so PHP 5.6 is required.
 
-### Installation
+### UI Installation
 
 * Clone/download the repo.  Configure the public/ folder to be the web root.
 * Change the system & application path variables ($system_path, $application_folder) in public/index.php if desired.
@@ -20,6 +20,10 @@ Nothing fancy is needed other than a normal, relatively up to date PHP & MySQL e
 * The default account is:
   * Username: admin@admin.com 
   * Password: password
+
+### Ansible inventory script installation
+
+TODO
 
 ### Credits
 
