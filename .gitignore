@@ -1,0 +1,5 @@
+application/cache/*
+application/logs/*.php
+application/logs/*.log
+application/config/database.php
+application/config/config.php
