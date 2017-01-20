@@ -53,8 +53,10 @@ $route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-// Routes for the admin interface
-$route['login'] = 'admin/login/index';
-$route['logout'] = 'admin/login/logout';
-$route['reset_password/(:any)'] = 'admin/login/resetPassword/$1';
-$route['activate/(:any)/(:any)'] = 'admin/login/activateAccount/$1/$2';
+// Routes for the login pages
+$route['login'] = '/login/index';
+$route['logout'] = '/login/logout';
+$route['register'] = '/login/register';
+$route['recover'] = '/login/recover';
+$route['reset/(:any)'] = '/login/reset/$1';
+$route['activate/(:any)/(:any)'] = '/login/activate/$1/$2';

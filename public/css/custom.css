@@ -1,0 +1,14 @@
+
+.logotext a, .logotext a:hover {
+    color: #f0ad4e;
+    text-decoration: none;
+    cursor: pointer;
+    
+}
+/* Tweaks for datatables search box X */
+input[type="search"] {
+    -webkit-appearance: searchfield;
+}
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+}
