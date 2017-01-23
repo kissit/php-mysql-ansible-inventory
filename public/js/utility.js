@@ -16,15 +16,17 @@ function displayMessage(message, status, delay, align, offset) {
 function displayDefaultError() {
     displayMessage("Something went wrong while processing your request", "danger");
 }
-function blockui(msg) {
-    if (msg === undefined) msg = "Processing...please wait";
-    $.blockUI({
-        message: '<h4><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>&nbsp; '+msg+'</h4>',
-        css: { border: '2px solid #31708f', backgroundColor: "#d9edf7", color: "#31708f"}
-    });
+function inverse(v) {
+    return parseInt(v) == 1 ? 0 : 1;
 }
-function unblockui() {
-    $.unblockUI();
+function getStatusText(v) {
+    return parseInt(v) == 1 ? 'disable' : 'enable';
+}
+function capitalizeStr(text) {
+    if(text != '') {
+        text =  text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    }
+    return text;
 }
 $(document).ready(function(){
     var message = $("#flash_message").val();

@@ -1,14 +1,38 @@
-
+@media (max-width: 768px) {
+    .navbar_left {
+        float: left !important;
+    }
+}
+.navbar-fixed-top {
+    height: 78px;
+}
+input[type="search"] {
+    -webkit-appearance: searchfield;
+}
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+}
 .logotext a, .logotext a:hover {
     color: #f0ad4e;
     text-decoration: none;
     cursor: pointer;
     
 }
-/* Tweaks for datatables search box X */
-input[type="search"] {
-    -webkit-appearance: searchfield;
+.dataTable_wrapper {
+    border-style: none;
 }
-input[type="search"]::-webkit-search-cancel-button {
-    -webkit-appearance: searchfield-cancel-button;
+h3.page_title {
+    margin-top: 0px;
+}
+.display_block {
+    display: block !important;
+}
+.nav>li>a {
+    font-size: 16px;
+    padding-top: 13px;
+}
+.navbar-right>li>a, .navbar-right>li>a:focus, .navbar-right>li>a:hover, .navbar-right .open>a, .navbar-right .open>a:focus, .navbar-right .open>a:hover {
+    background-color: #808080;
+    color: #f0ad4e;
+    text-decoration: none;
 }

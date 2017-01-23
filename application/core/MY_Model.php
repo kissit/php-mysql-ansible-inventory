@@ -188,4 +188,13 @@ class MY_model extends CI_Model {
     public function updateWhere($where = array(), $update = array(), $table = null) {
         return $this->db->update($this->getTableName($table), $update, $where);
     }
+
+    // Generic function to handle updates of lookup options
+    public function setLookups($parent_col, $parent_id, $option_col, $options = array(), $table = null) {
+        // First clear current options
+        $this->deleteWhere(array($parent_col => $parent_id), $this->getTableName($table));
+        foreach($options as $option) {
+            $this->db->insert($this->getTableName($table), array($parent_col => $parent_id, $option_col => $option));
+        }
+    }
 }

@@ -14,7 +14,7 @@
                <b>User List</b>
             </div>
             <div class="panel-body">
-                <div class="dataTable_wrapper table-responsive container-fluid" id="datatable_wrapper">
+                <div class="dataTable_wrapper table-responsive container-fluid">
                     <table class="table table-striped table-bordered table-hover" id="datatable1">
                         <thead>
                             <tr>
@@ -37,7 +37,9 @@
                                 <td><a href="/admin/editUser/{{ row.id }}">{{ row.email }}</a></td>
                                 <td>{{ row.first_name }} {{ row.last_name }}</td>
                                 <td>{{ row.last_login|date("Y-m-d H:i:s") }}</td>
-                                <td align="center"><p class="fa {{ active_icon_class}}">&nbsp;{{ active }}</p></td>
+                                <td align="center">
+                                    <span class="label label-{{ row.active == 1 ? 'success' : 'danger'}}">{{ row.active == 1 ? 'Enabled' : 'Disabled'}}</span>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>

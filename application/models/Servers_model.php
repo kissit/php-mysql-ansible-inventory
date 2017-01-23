@@ -5,5 +5,4 @@ class Servers_model extends MY_Model {
         parent::__construct();
         $this->set('table', 'servers');
     }
-
 }

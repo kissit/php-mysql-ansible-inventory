@@ -35,9 +35,44 @@
 </div>
 {% else %}
 <div class="row">
-    <div class="col-md-12">
-        Logged in home page
-        
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <h2>Welcome to phpMyAnsibleAdmin</h2>
+        <p>
+            Use this tool in combination with our Ansible inventory script to store and manage your ansible inventory.  After using both the Rackspace (rax.py) and AWS EC2 (ec2.py) inventory scripts to manage environments spanning both platforms, it was decided to build an inventory script that relied on the inventory data being stored in a simple MySQL database.  A few advantages this approach has over the individual scripts:
+            <br><br>
+            <strong>Note, at the current time the tool only is used to manage inventory.  However we plan on adding the ability to run ansible tasks directly from the web interface.</strong>
+            <ul>
+                <li>Web based.  We've provided this web based utility to manage your inventory</li>
+                <li>Speed.  The API based solutions are slow, especially for large inventories.  Our script only requires a few queries.</li>
+                <li>Stability.  Our solution only requires that your database is up.  No longer are we stuck when Rackspace's API is not working properly</li>
+                <li>Consistency.  Our solution provides a consistent inventory formatting across any kind of platform.</li>
+                <li>Simpler.  The other inventory scipts provide a ton of information, most of which we never used.  Our solution includes the most basic information.</li>
+                <li>Both ansible groups and monitoring groups.  We use the same inventory to dynamically build Nagios configurations for large environments using the monitoring groups.  No longer miss a server problem due to someone forgetting to add it to Nagios!</li>
+            </ul>
+        </p>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <h2>Getting started</h2>
+        <p>
+            To get started managing your ansible inventory via phpMyAnsibleAdmin:
+            <ul>
+                <li>Congrats...since you are here, you already have the application setup and working.</li>
+                <li>Install our invetory script (scripts/mysql.php) in your Ansible inventory directory or point to it when running commands.  Modify the database options at the top to match your environment</li>
+                <li><a href="/servers">Add some servers</a></li>
+                <li><a href="/groups">Add some groups</a> corresponding to your ansible groups/roles and relate servers to them</li>
+                <li>Use the usual way of specifying roles, limiting inventory, etc inside Ansible</li>
+            </ul>
+        </p>
+        <h2>Planned features</h2>
+        <p>
+            We plan on continuing to develop this application, possibly adding some or all of the following:
+            <ul>
+                <li>Ability to run Ansible tasks directly from the web interface</li>
+                <li>Ansible task history</li>
+                <li>Notifications</li>
+                <li>Cloud integrations to automatically look up server information when not being automatically added by existing automation processes.</li>
+            </ul>
+        </p>
     </div>
 </div>
 {% endif %}

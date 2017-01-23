@@ -3,7 +3,10 @@
 // frequently use.  Note this controller DOES NOT require a user to be authenticated so should only be used on public pages.
 class MY_Controller extends CI_Controller {
 
-    private $statuses = array(1 => 'Active', 0 => 'Inactive', );
+    private $statuses = array(
+        array('id' => 1, 'name' => 'Enabled'),
+        array('id' => 0, 'name' => 'Disabled')
+    );
     private $logged_in = false;
     protected $user = null;
     protected $user_id = 0;
@@ -133,12 +136,21 @@ class MY_Controller extends CI_Controller {
         $this->session->set_flashdata('flash_message', $message);
     }
 
-    // Method to return an array of dropdown list options based on the passed in array of value => name pairs & selected item
-    protected function getOptions($options, $selected = 0) {
+    // Function to build an array of options to pass to a twig template to be processed in a loop
+    protected function getOptions($options, $selected = 0, $name_key = 'name', $id_key = 'id') {
         $return = array();
-        foreach($options as $value => $name) {
-            $select = $selected == $value ? 'selected' : '';
-            $return[] = "<option value=\"$value\" $select>$name</option>";
+        foreach ($options as $option) {
+            $select = '';
+            if(is_array($selected)) {
+                if(in_array($option[$id_key], $selected)) {
+                    $select = 'selected';
+                }
+            } else {
+                if ((string)$selected == (string)$option[$id_key]) {
+                    $select = 'selected';
+                }
+            }
+            $return[] = "<option value=\"{$option[$id_key]}\" $select>{$option[$name_key]}</option>";
         }
         return $return;
     }
@@ -168,15 +180,26 @@ class MY_Controller extends CI_Controller {
         $this->output->set_output(json_encode($return));
     }
 
-    // Wrapper function to display a template to the page.
-    protected function templateDisplay($template, $data, $set_og = true) {
+    // Function to setup the default data points to display or render a template
+    protected function setTemplateData($data) {
         $data['is_logged_in'] = $this->getLoggedIn();
         $data['users_id'] = $this->getUserId();
         $data['flash_status'] = $this->session->flashdata('flash_status');
         $data['flash_message'] = $this->session->flashdata('flash_message');
         $data['user_display_name'] = $this->getUserDisplayName();
         $data['site_url'] = site_url();
+        return $data;
+    }
 
+    // Wrapper function to display a template to the page.
+    protected function templateDisplay($template, $data, $set_og = true) {
+        $data = $this->setTemplateData($data);
         $this->template->display($data, $template);
+    }
+
+    // Wrapper function to render a template and return the markup
+    protected function templateRender($template, $data) {
+        $data = $this->setTemplateData($data);
+        return $this->template->render($data, true, $template);
     }
 }

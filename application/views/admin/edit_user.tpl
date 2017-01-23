@@ -1,5 +1,6 @@
 {% extends "wrapper.tpl" %}
 {% block content %}
+{% if admin_edit %}
 <div class="row" style="margin-bottom: 20px;">
     <div class="col-md-12">
         <div class="pull-right">
@@ -7,6 +8,7 @@
         </div>
     </div>
 </div>
+{% endif %}
 <div class="row">
     <div class="col-md-6">
         <div class="panel panel-default">
@@ -18,12 +20,12 @@
                 {% endif %}
             </div>
             <div class="panel-body">
-                <form id="edit_user" method="POST" action="/admin/processEditUser">
+                <form id="edit_user" method="POST" action="{{ admin_edit ? '/admin/processEditUser' : '/home/setProfile' }}">
                     <input type="hidden" name="id" value="{{ user.id | default('0') }}">
                     <input type="hidden" id="old_email" value="{{ user.email }}">
                     <div class="form-group">
                         <label>Email Address</label>
-                        <input class="form-control" id="email" name="user[email]" type="text" value="{{ user.email }}">
+                        <input class="form-control" id="email" name="user[email]" type="text" value="{{ user.email }}" {{ admin_edit ? '' : 'readonly' }}>
                     </div>
                     <div class="form-group">
                         <label>First Name</label>
@@ -33,7 +35,7 @@
                         <label>Last Name</label>
                         <input class="form-control" name="user[last_name]" type="text" value="{{ user.last_name }}">
                     </div>
-                    {% if user.id > 0 %}
+                    {% if admin_edit and user.id > 0 %}
                     <div class="form-group">
                         <label>Status</label>
                         <select class="form-control selectpicker" name="active">
@@ -42,6 +44,8 @@
                             {% endfor %}
                         </select>
                     </div>
+                    {% endif %}
+                    {% if user.id > 0 %}
                     <div class="form-group">
                         <label>Password (Between {{ min_password_length }} and {{ max_password_length }} characters)</label>
                         <input class="form-control" id="password1" name="password1" type="password" value="">
@@ -52,18 +56,20 @@
                     </div>
                     {% endif %}
                     <button class="btn btn-primary" type="submit">Save</button>&nbsp;<a class="btn btn-default" href="/admin/users">Cancel</a>
-                    {% if user.id > 0 %}
+                    {% if admin_edit and user.id > 0 %}
                     <button id="delete_user" class="btn btn-danger" type="button">Delete</button>
                     {% endif %}
                 </form>
             </div>
         </div>
     </div>
+    {% if admin_edit %}
     <div class="col-md-6">
         <div class="alert alert-info" role="alert">
             When adding a new user we will send a confirmation email to their address.  The user can then activate their account and set their password.  You can only specify a password when editing an existing user.  Leave the password blank unless you wish to change it.
         </div>
     </div>
+    {% endif %}
 </div>
 {% endblock %}
 {% block pagejs %}
@@ -100,7 +106,7 @@ $(document).ready(function() {
             },
         }
     });
-    {% if user.id > 0 %}
+    {% if admin_edit and user.id > 0 %}
     $("#delete_user").click(function(event){
         $("#modal_body").html("Are you sure you want to delete this user?");
         $('#kiss_modal').modal('show');

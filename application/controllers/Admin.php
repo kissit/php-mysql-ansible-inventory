@@ -15,7 +15,7 @@ class Admin extends MY_Controller {
 
     public function editUser($id = 0) {
         $id = (int)$id;
-        $data = array();
+        $data = array('admin_edit' => true);
         $data['min_password_length'] = $this->config->item('min_password_length', 'ion_auth');
         $data['max_password_length'] = $this->config->item('max_password_length', 'ion_auth');
 

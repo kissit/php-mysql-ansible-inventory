@@ -11,7 +11,7 @@ $config['smtp_user'] = null;
 $config['smtp_pass'] = null;
 
 // Default from email settings
-$config['default_from_email'] = 'no-reply@kissitconsulting.com';
+$config['default_from_email'] = 'no-reply@domain.com';
 $config['default_from_name'] = 'phpMyAnsibleAdmin';
 
 // Subject for the account activation email

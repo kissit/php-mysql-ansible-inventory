@@ -10,14 +10,17 @@
     <!-- Bootstrap CSS -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <!-- Datatables Bootstrap CSS -->
-    <link href="//cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.datatables.net/1.10.8/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <!-- Start Bootstrap Template -- small business -->
     <link href="/css/small-business.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- Bootstrap select plugin (https://silviomoreto.github.io/bootstrap-select/) -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css" rel="stylesheet" >
-
+    <link href="/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" >
+    <!-- Bootstrap switch plugin (https://github.com/nostalgiaz/bootstrap-switch) -->
+    <link href="/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet">
+    <!-- Multiselect plugin (http://loudev.com/#home) -->
+    <link href="/lou-multi-select/css/multi-select.dist.css" rel="stylesheet">
     <!-- Custom CSS.  Keep this last -->
     <link href="/css/custom.css" rel="stylesheet">
     
@@ -47,9 +50,26 @@
                     <a href="/">phpMyAnsibleAdmin</a>
                 </h1>
             </div>
+            {% if is_logged_in %}
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                {% if is_logged_in %}
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-top-links navbar-right">
+                    <li class="dropdown user_menu">
+                        <a class="dropdown-toggle user_menu" data-toggle="dropdown" href="#">
+                            {{ user_display_name }}&nbsp;
+                            <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="/profile">
+                                <i class="fa fa-user fa-fw"></i> User Profile</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav pull-right navbar_left" style="margin-right: 30px;">
                     <li>
                         <a href="/servers">Servers</a>
                     </li>
@@ -65,31 +85,8 @@
                         </ul>
                     </li>
                 </ul>
-                <ul class="nav navbar-top-links navbar-right">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            Hello&nbsp;{{ header_data.first_name }}&nbsp;
-                            <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-user">
-                            <li><a href="/user/profile">
-                                <i class="fa fa-user fa-fw"></i> User Profile</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-                {% else %}
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="/">Login</a>
-                    </li>
-                </ul>
-                {% endif %}
             </div>
+            {% endif %}
         </div>
     </nav>
     <div class="container">
@@ -107,15 +104,22 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <!-- Bootstrap JS -->
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<!-- Datatables JS -->
-<script src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
-<script src="//cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
-<!-- Selectpicker plugin (https://silviomoreto.github.io/bootstrap-select/) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
-<!-- Bootstrap growl -->
+<!-- Datatables JS - NOTE: 1.10.8 is used specifically for a fix for removing table rows that has been re-introduced in later versions -->
+<!-- See this for more info: https://github.com/DataTables/DataTables/issues/566 -->
+<script src="//cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/1.10.8/js/dataTables.bootstrap.min.js"></script>
+<!-- Bootstrap growl (https://github.com/ifightcrime/bootstrap-growl) -->
 <script src="/js/jquery.bootstrap-growl.min.js"></script>
-<!-- Jqueryvalidation plugin -->
+<!-- Jqueryvalidation plugin (https://jqueryvalidation.org/) -->
 <script src="/jquery-validation/jquery.validate.min.js"></script>
+<!-- Selectpicker plugin (https://silviomoreto.github.io/bootstrap-select/) -->
+<script src="/bootstrap-select/js/bootstrap-select.min.js"></script>
+<!-- Bootstrap switch plugin (https://github.com/nostalgiaz/bootstrap-switch) -->
+<script src="/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<!-- Bootstrap confirmation plugin (http://bootstrap-confirmation.js.org/) -->
+<script src="/bootstrap-confirmation/bootstrap-confirmation.min.js"></script>
+<!-- Multiselect plugin (http://loudev.com/#home) -->
+<script src="/lou-multi-select/js/jquery.multi-select.js"></script>
 <!-- Custom JS -->
 <script src="/js/jquery.validate.defaults.js"></script>
 <script src="/js/utility.js"></script>
