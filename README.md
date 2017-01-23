@@ -36,6 +36,15 @@ ansible-playbook myplaybook.com -i ./inventory/mysql.php
 ### Screenshots
 ![1login](/screenshots/1login.png?raw=true "Login")
 
+![2home](/screenshots/2home.png?raw=true "Home")
+
+![3servers](/screenshots/3servers.png?raw=true "Servers")
+
+![4edit_server](/screenshots/4edit_server.png?raw=true "Edit Server")
+
+![5groups](/screenshots/5groups.png?raw=true "Groups")
+
+![6edit_group](/screenshots/6edit_group.png?raw=true "Edit Group")
 
 ### Credits
 
