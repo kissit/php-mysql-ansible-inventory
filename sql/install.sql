@@ -17,8 +17,6 @@
 --
 -- Table structure for table `groups`
 --
-
-DROP TABLE IF EXISTS `groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `groups` (
@@ -41,8 +39,6 @@ UNLOCK TABLES;
 --
 -- Table structure for table `ion_groups`
 --
-
-DROP TABLE IF EXISTS `ion_groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ion_groups` (
@@ -66,8 +62,6 @@ UNLOCK TABLES;
 --
 -- Table structure for table `ion_login_attempts`
 --
-
-DROP TABLE IF EXISTS `ion_login_attempts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ion_login_attempts` (
@@ -91,8 +85,6 @@ UNLOCK TABLES;
 --
 -- Table structure for table `ion_users`
 --
-
-DROP TABLE IF EXISTS `ion_users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ion_users` (
@@ -130,8 +122,6 @@ UNLOCK TABLES;
 --
 -- Table structure for table `ion_users_groups`
 --
-
-DROP TABLE IF EXISTS `ion_users_groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ion_users_groups` (
@@ -160,8 +150,6 @@ UNLOCK TABLES;
 --
 -- Table structure for table `monitor_groups`
 --
-
-DROP TABLE IF EXISTS `monitor_groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `monitor_groups` (
@@ -184,8 +172,6 @@ UNLOCK TABLES;
 --
 -- Table structure for table `servers`
 --
-
-DROP TABLE IF EXISTS `servers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `servers` (
@@ -216,8 +202,6 @@ UNLOCK TABLES;
 --
 -- Table structure for table `servers_groups`
 --
-
-DROP TABLE IF EXISTS `servers_groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `servers_groups` (
@@ -241,7 +225,6 @@ UNLOCK TABLES;
 -- Table structure for table `servers_monitor_groups`
 --
 
-DROP TABLE IF EXISTS `servers_monitor_groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `servers_monitor_groups` (
@@ -271,3 +254,22 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2017-01-22 19:36:21
+
+
+CREATE TABLE `batch` ( 
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , 
+    `status` ENUM('queued','running','complete','error','cancelled') NOT NULL DEFAULT 'queued' , 
+    `command` TEXT NOT NULL ,
+    `notes` TEXT NOT NULL ,
+    `command_name` VARCHAR(100) NOT NULL DEFAULT '',
+    `playbook` VARCHAR(100) NOT NULL DEFAULT '',
+    `command_limit` VARCHAR(255) NOT NULL DEFAULT '',
+    `command_tags` VARCHAR(255) NOT NULL DEFAULT '',
+    `output_file` varchar(255) NOT NULL DEFAULT '',
+    `created_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+    `created_by` INT NOT NULL DEFAULT '0' ,
+    `start_date` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+    `end_date` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' , 
+    PRIMARY KEY (`id`),
+    KEY `status_idx`(`status`)
+) ENGINE = InnoDB;

@@ -70,6 +70,11 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav pull-right navbar_left" style="margin-right: 30px;">
+                    {% if tasks_on %}
+                    <li>
+                        <a href="/tasks">Tasks</a>
+                    </li>
+                    {% endif %}
                     <li>
                         <a href="/servers">Servers</a>
                     </li>

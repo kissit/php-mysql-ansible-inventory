@@ -182,6 +182,7 @@ class MY_Controller extends CI_Controller {
 
     // Function to setup the default data points to display or render a template
     protected function setTemplateData($data) {
+        $data['tasks_on'] = $this->config->item('tasks_on', 'custom');
         $data['is_logged_in'] = $this->getLoggedIn();
         $data['users_id'] = $this->getUserId();
         $data['flash_status'] = $this->session->flashdata('flash_status');
