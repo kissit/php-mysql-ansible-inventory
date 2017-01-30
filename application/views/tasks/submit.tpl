@@ -23,8 +23,8 @@
             <label class="control-label">Select a command</label>
             <div class="clearfix">
             <div class="btn-group " data-toggle="buttons">
-                <label class="btn btn-warning"><input type="radio" class="toggle" name="post[command_name]" value="ansible-playbook"> ansible-playbook </label>
-                <label class="btn btn-warning"><input type="radio" class="toggle" name="post[command_name]" value="ansible"> ansible </label>
+                <label class="btn btn-default"><input type="radio" class="toggle" name="post[command_name]" value="ansible-playbook"> ansible-playbook </label>
+                <label class="btn btn-default"><input type="radio" class="toggle" name="post[command_name]" value="ansible"> ansible </label>
             </div>
             </div>
         </div>

@@ -28,6 +28,33 @@ function capitalizeStr(text) {
     }
     return text;
 }
+var ui_blocked = false;
+function blockui(msg) {
+    if(!ui_blocked) {
+        ui_blocked = true;
+        if (msg === undefined) msg = "Processing...please wait";
+        $.blockUI({
+            message: '<h4><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>&nbsp; '+msg+'</h4>',
+            css: { border: '2px solid #31708f', backgroundColor: "#d9edf7", color: "#31708f"}
+        });
+    }
+}
+function unblockui() {
+    if(ui_blocked) {
+        ui_blocked = false;
+        $.unblockUI();
+    }
+}
+function blockElement(id, msg) {
+    if (msg === undefined) msg = "Processing...";
+    $("#"+id).block({
+        message: '<h4><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>&nbsp; '+msg+'</h4>',
+        css: { border: '2px solid #31708f', backgroundColor: "#d9edf7", color: "#31708f"}
+    });
+}
+function unblockElement(id) {
+    $("#"+id).unblock();
+}
 $(document).ready(function(){
     var message = $("#flash_message").val();
     if(message.length > 0) {

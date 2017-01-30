@@ -125,6 +125,10 @@
 <script src="/bootstrap-confirmation/bootstrap-confirmation.min.js"></script>
 <!-- Multiselect plugin (http://loudev.com/#home) -->
 <script src="/lou-multi-select/js/jquery.multi-select.js"></script>
+<!-- Slimscroll plugin (http://rocha.la/jQuery-slimScroll) -->
+<script src="/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- BlockUI plugin (http://malsup.com/jquery/block/) -->
+<script src="/js/jquery.blockUI.js"></script>
 <!-- Custom JS -->
 <script src="/js/jquery.validate.defaults.js"></script>
 <script src="/js/utility.js"></script>

@@ -19,15 +19,14 @@
                     {% for row in rows %}
                     <tr>
                         <td>{{ row.created_date }}</td>
-                        <td>{{ row.owner }}</td>
+                        <td>{{ row.owner.first_name }} {{ row.owner.last_name }}</td>
                         <td>{{ row.status }}</td>
                         <td>{{ row.command }}</td>
                         <td>{{ row.notes }}</td>
                         <td>
+                            <a href="/tasks/view/{{ row.id }}" class="btn btn-xs btn-info ktooltip" ktitle="View details" data-container="body"><i class="fa fa-info-circle"></i></a>
                             {% if row.status == 'queued' %}
                             <button class="btn btn-xs btn-danger ktooltip cancel" ktitle="Cancel this task" kid="{{ row.id }}" data-container="body"><i class="fa fa-trash"></i></button>
-                            {% else %}
-                            <a href="/tasks/view/{{ row.id }}" class="btn btn-xs btn-info ktooltip" ktitle="View details" data-container="body"><i class="fa fa-info-circle"></i></a>
                             {% endif %}
                         </td>
                     </tr>
