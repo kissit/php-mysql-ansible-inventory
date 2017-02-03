@@ -12,6 +12,7 @@ $config['tasks_on'] = true;
 // user running the tasks script.  It must also be readable by the web server.
 // DO NOT INCLUDE TRAILING /
 $config['tasks_log_path'] = '/tmp/tasks';
+$config['ansible_project_path'] = '/home/brian/public_repos/phpMyAnsibleAdmin/ansible';
 
 // Email settings.  The default is to use the local systems MTA via PHP's defaults.
 $config['smtp_host'] = null;

@@ -44,6 +44,7 @@ $(document).ready(function() {
         "responsive": true,
         "pageLength": 50,
         "stateSave": true,
+        "order": [[ 0, "desc" ]],
         "columnDefs": [
             {"targets": -1, "orderable": false, "searchable": false, "width": "70px", "className": "text-center"}
         ],

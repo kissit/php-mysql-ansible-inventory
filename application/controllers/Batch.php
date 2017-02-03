@@ -14,6 +14,7 @@ class Batch extends CI_Controller {
         $this->load->model('batch_model');
         $this->load->library('messages');
         $this->load->library('locking');
+        $this->config->load('custom', TRUE);
 
         // Only allow running from cli
         if(!is_cli()) {
@@ -30,11 +31,17 @@ class Batch extends CI_Controller {
         }
     }
 
-    private setCmdLog($filename) {
-        $this->cmd_log = $this->config->item('tasks_log_path', 'custom') . "/" . $filename;
+    private function setCmdLog($filename) {
+        $path = $this->config->item('tasks_log_path', 'custom');
+        if(is_writable($path)) {
+            $this->cmd_log = "{$path}/{$filename}";
+            return $this->cmd_log;
+        } else {
+            return false;
+        }
     }
 
-    private writeCmdLog($log) {
+    private function writeCmdLog($log) {
         if($this->cmd_log) {
             $log = date("Y-m-d H:i:s") . " --> $log\n";
             file_put_contents($this->cmd_log, $log, FILE_APPEND);
@@ -58,51 +65,74 @@ class Batch extends CI_Controller {
     public function processAnsibleQueue() {
         $this->locking->init('processAnsibleQueue');
         if($this->locking->setLock()) {
-            // Check for queue'd requests
-            $queue = $this->batch_model->getRows(array('status' => 'queued'));
+
+            // Check for queue'd requests if we can change to the ansible project directory
+            $ansible_dir = $this->config->item('ansible_project_path', 'custom');
+            if(chdir($ansible_dir)) {    
+                $queue = $this->batch_model->getRows(array('status' => 'queued'));
+            } else {
+                $queue = array();
+                echo date("Y-m-d H:i:s") . " -> ERROR: Cannot change to ansible directory: $ansible_dir\n";
+            }
+
             foreach($queue as $task) {
                 $id = $task['id'];
                 $task_start = time();
 
                 // Set our current tasks output log and start it
-                $this->setCmdLog($id . "_" . date("Ymd_His", $task_start) . ".log";
-                $this->writeCmdLog("Starting to process task id {$task['id']}");
+                if($this->setCmdLog($id . "_" . date("Ymd_His", $task_start) . ".log")) {
+                    $this->writeCmdLog("Starting to process task id {$id}");
 
-                // Update our state in the DB
-                $this->batch_model->setRow($id, array('status' => 'running', 'output_file' => $this->cmd_log, 'start_date' => date("Y-m-d H:i:s", $task_start)));
-                
-                // Build the command (or use a raw one if passed)
-                $cmd = null;
-                if(!empty($task['command'])) {
-                    if(strpos($task['command'], 'ansible')) === 0) {
-                        $cmd = $task['command'];
-                    }
-                } else {
-                    if(!empty($task['command_name'])) {
-                        $cmd = $task['command_name'];
-                        $cmd .= " {$task['command_name']}";
-                        $cmd .= (!empty($task['command_limit'])) ? " --limit={$task['command_limit']}" : "";
-                        $cmd .= (!empty($task['command_tags'])) ? " --tags={$task['command_tags']}" : "";
-                    }
-                }
-
-                // Run the command if we have one
-                if($cmd) {
-                    $cmd = escapeshellcmd($cmd);
-                    $return_code = 0;
-                    $status = system($cmd, $return_code);
-                    if($status !== false) {
-                        // system command completed
+                    // Update our state in the DB
+                    $this->batch_model->setRow($id, array('status' => 'running', 'output_file' => $this->cmd_log, 'start_date' => date("Y-m-d H:i:s", $task_start)));
+                    
+                    // Build the command (or use a raw one if passed)
+                    $cmd = null;
+                    if(!empty($task['command'])) {
+                        if(strpos($task['command'], 'ansible') === 0) {
+                            $cmd = $task['command'];
+                        }
                     } else {
-                        // system command failed
+                        if(!empty($task['command_name'])) {
+                            $cmd = $task['command_name'];
+                            $cmd .= " {$task['command_name']}";
+                            $cmd .= (!empty($task['command_limit'])) ? " --limit={$task['command_limit']}" : "";
+                            $cmd .= (!empty($task['command_tags'])) ? " --tags={$task['command_tags']}" : "";
+                        }
                     }
+
+                    // Run the command if we have one
+                    if($cmd) {
+                        // Escape just in case someone tries to input something bad.  Won't stop all things of course
+                        $cmd = escapeshellcmd($cmd);
+                        
+                        // Redirect STDOUT & STDERR to our log file
+                        $cmd = "{$cmd} >> {$this->cmd_log}";
+
+                        // Run the command
+                        $task_status = 'error';
+                        $return_code = 0;
+                        $status = system($cmd, $return_code);
+                        if($status !== false && $return_code === 0) {
+                            // system command completed
+                            $log = "COMPLETE: Command completed for task id {$id}";
+                            $task_status = 'complete';
+                        } else {
+                            // system command failed
+                            $log = "ERROR: Command failed for task id {$id}.  Return code: $return_code";
+                        }
+                    } else {
+                        // Empty command detected
+                        $log = "ERROR: Empty command for task id {$id}";
+                    }
+
+                    $this->writeCmdLog($log);
+                    $this->batch_model->setRow($id, array('status' => $task_status, 'end_date' => date("Y-m-d H:i:s")));
                 } else {
-                    // Empty command detected
+                    $this->writeCmdLog("ERROR: Log directory is not writeable for task id {$id}");
+                    $this->batch_model->setRow($id, array('status' => 'error', 'end_date' => date("Y-m-d H:i:s")));
                 }
-                
-
             }
-
             $this->locking->clearLock();
         } else {
             $this->log("Failed to set lock file...another process may still be running or failed");

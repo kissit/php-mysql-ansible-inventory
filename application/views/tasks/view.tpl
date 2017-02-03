@@ -62,7 +62,7 @@
                 </h3>
             </div>
             <div class="panel-body" id="refresh_block">
-                <div id="log_view"><pre id="log_data">{{ log_data }}</pre></div>
+                <div id="log_view"><pre id="log_data">{{ log_data | default('No log data') }}</pre></div>
             </div>
         </div>
     </div>
