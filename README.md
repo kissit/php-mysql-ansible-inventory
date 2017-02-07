@@ -63,7 +63,7 @@ Schedule the task runner in cron.  This should be run by the owner that you use 
 
 ![7submit_task](/screenshots/7submit_task.png?raw=true "Submit ansible task")
 
-![8task_details](/screenshots/8task_details.png?raw=true "View task details")
+![8task_details2](/screenshots/8task_details2.png?raw=true "View task details")
 
 ### Credits
 
