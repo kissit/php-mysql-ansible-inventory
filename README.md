@@ -1,7 +1,7 @@
 
 ## phpMyAnsibleInventory
 
-A PHP based web interface an manage your Ansible inventory in a MySQL database and an inventory script to make use of it within Ansible.
+A PHP based web interface an manage your Ansible inventory in a MySQL database and an inventory script to make use of it within Ansible.  Also allows for submitting of Ansible tasks from within the UI (feature still under development).
 
 ### Requirements
 
@@ -33,6 +33,21 @@ Or, if you'd prefer you can spefify the location when you invoke ansible command
 ansible-playbook myplaybook.com -i ./inventory/mysql.php
 ```
 
+### Running of Ansible tasks from within the UI
+This feature is still under development, and while generally functional still needs to be made friendlier.  To support tasks do the following.
+
+In application/config/custom.php:
+```
+$config['tasks_on'] = true;
+$config['tasks_log_path'] = '/tmp/tasks';
+$config['ansible_project_path'] = '/var/www/phpMyAnsibleAdmin/ansible';
+```
+
+Schedule the task runner in cron.  This should be run by the owner that you use to run your ansible commands from CLI.  For example, to check for new tasks every minute:
+```
+* * * * * /usr/local/bin/php /var/www/phpMyAdmin/public/index.php batch processAnsibleQueue > /dev/null 2>&1
+```
+
 ### Screenshots
 ![1login](/screenshots/1login.png?raw=true "Login")
 
@@ -45,6 +60,10 @@ ansible-playbook myplaybook.com -i ./inventory/mysql.php
 ![5groups](/screenshots/5groups.png?raw=true "Groups")
 
 ![6edit_group](/screenshots/6edit_group.png?raw=true "Edit Group")
+
+![7submit_task](/screenshots/7submit_task.png?raw=true "Submit ansible task")
+
+![8task_details](/screenshots/8task_details.png?raw=true "View task details")
 
 ### Credits
 
