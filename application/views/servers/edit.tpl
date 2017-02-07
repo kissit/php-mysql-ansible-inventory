@@ -56,6 +56,7 @@
         <button type="submit" class="btn btn-primary" name="save_add"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Save & Add Another&nbsp;</button>&nbsp;
         <a class="btn btn-default" href="/servers"><i class="fa fa-backward"></i>&nbsp;&nbsp;Cancel&nbsp;</a>
     </div>
+</div>
 </form>
 {% endblock %}
 {% block pagejs %}

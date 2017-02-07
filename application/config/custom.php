@@ -4,6 +4,16 @@
 * to suit your needs
 */
 
+// Whether or not to enable the Ansible tasks functionality which will allow web users to run tasks
+// Set this to 'false' to disable
+$config['tasks_on'] = true;
+
+// The location to write your ansible tasks output logs to.  This location must be writeable by the
+// user running the tasks script.  It must also be readable by the web server.
+// DO NOT INCLUDE TRAILING /
+$config['tasks_log_path'] = '/tmp/tasks';
+$config['ansible_project_path'] = '/home/brian/public_repos/phpMyAnsibleAdmin/ansible';
+
 // Email settings.  The default is to use the local systems MTA via PHP's defaults.
 $config['smtp_host'] = null;
 $config['smtp_port'] = null;
