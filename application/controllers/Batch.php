@@ -93,11 +93,17 @@ class Batch extends CI_Controller {
                             $cmd = $task['command'];
                         }
                     } else {
-                        if(!empty($task['command_name'])) {
-                            $cmd = $task['command_name'];
-                            $cmd .= " {$task['command_name']}";
+                        if(!empty($task['command_name']) && !empty($task['playbook'])) {
+                            $cmd = "{$task['command_name']} {$task['playbook']}";
                             $cmd .= (!empty($task['command_limit'])) ? " --limit={$task['command_limit']}" : "";
                             $cmd .= (!empty($task['command_tags'])) ? " --tags={$task['command_tags']}" : "";
+                            $cmd .= (!empty($task['command_options'])) ? " {$task['command_options']}" : "";
+
+                            // Update our cmd in the DB
+                            $this->writeCmdLog("COMMAND BUILT AS: $cmd");
+                            $this->batch_model->setRow($id, array('command' => $cmd));
+                        } else {
+                            $this->writeCmdLog("ERROR: unable to build command");
                         }
                     }
 

@@ -40,6 +40,10 @@
             <label class="control-label">Provide a list of tags</label>
             <input class="form-control" type="text" name="post[command_tags]">
         </div>
+        <div class="form-group">
+            <label class="control-label">Extra options</label>
+            <input class="form-control" type="text" name="post[command_options]">
+        </div>
     </div>
     <div class="col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
