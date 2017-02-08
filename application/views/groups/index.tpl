@@ -96,7 +96,7 @@ $(document).ready(function() {
             $.get("/groups/delete/"+type+"/"+kid, function(response) {
                 if(parseInt(response) > 0) {
                     displayMessage("Group deleted");
-                    groups_dt.row($("#groups_row_"+kid)).remove().draw();
+                    groups_dt.row($("#groups_row_"+kid)).remove().draw(false);
                 } else {
                     displayDefaultError();
                 }
@@ -127,7 +127,7 @@ $(document).ready(function() {
             $.get("/groups/delete/"+type+"/"+kid, function(response) {
                 if(parseInt(response) > 0) {
                     displayMessage("Group deleted");
-                    monitor_groups_dt.row($("#monitor_groups_row_"+kid)).remove().draw();
+                    monitor_groups_dt.row($("#monitor_groups_row_"+kid)).remove().draw(false);
                 } else {
                     displayDefaultError();
                 }
