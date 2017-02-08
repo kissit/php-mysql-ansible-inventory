@@ -57,6 +57,8 @@ class Tasks extends MY_Controller {
                 if($return['log_data'] === false) {
                     $return['log_data'] = "Unable to read log file";
                 }
+            } else {
+                 $return['log_data'] = "Log file not found";
             }
         }
         $this->returnJson($return);
@@ -98,7 +100,7 @@ class Tasks extends MY_Controller {
         
         $id = $this->batch_model->setRow(0, $post);
         if($id > 0) {
-            $this->setMessage("Task submitted and will be started on the next minute");
+            $this->setMessage("Task queued");
             redirect("/tasks");
         } else {
             $this->setMessage();
