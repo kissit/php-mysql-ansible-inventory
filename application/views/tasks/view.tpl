@@ -32,7 +32,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Submitted by: </label>
-                {{ task.owner.first_name }} {{ task.owner.first_name }}
+                {{ task.owner.first_name }} {{ task.owner.last_name }}
             </div>
             <div class="form-group">
                 <label class="control-label">Submitted Date/Time: </label>
