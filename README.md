@@ -45,7 +45,7 @@ $config['ansible_project_path'] = '/var/www/phpMyAnsibleAdmin/ansible';
 
 Schedule the task runner in cron.  This should be run by the owner that you use to run your ansible commands from CLI.  For example, to check for new tasks every minute:
 ```
-* * * * * /usr/local/bin/php /var/www/phpMyAdmin/public/index.php cron/tasks processAnsibleQueue > /dev/null 2>&1
+* * * * * /usr/local/bin/php /var/www/phpMyAnsibleAdmin/public/index.php cron/tasks processAnsibleQueue > /dev/null 2>&1
 ```
 
 ### Screenshots
