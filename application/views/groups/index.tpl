@@ -19,7 +19,7 @@
                         </thead>
                         <tbody>
                             {% for row in groups_rows %}
-                            <tr id="row_{{ row.id }}">
+                            <tr id="groups_row_{{ row.id }}">
                                 <td id="name_{{ row.id }}">{{ row.name }}</td>
                                 <td id="count_{{ row.id }}">{{ servers_groups[row.id] | default(0) }}</td>
                                 <td>
@@ -51,7 +51,7 @@
                         </thead>
                         <tbody>
                             {% for row in monitor_groups_rows %}
-                            <tr id="row_{{ row.id }}">
+                            <tr id="monitor_groups_row_{{ row.id }}">
                                 <td id="name_{{ row.id }}">{{ row.name }}</td>
                                 <td id="count_{{ row.id }}">{{ servers_monitor_groups[row.id] | default(0) }}</td>
                                 <td>
@@ -96,7 +96,7 @@ $(document).ready(function() {
             $.get("/groups/delete/"+type+"/"+kid, function(response) {
                 if(parseInt(response) > 0) {
                     displayMessage("Group deleted");
-                    groups_dt.row($("#row_"+kid)).remove().draw();
+                    groups_dt.row($("#groups_row_"+kid)).remove().draw();
                 } else {
                     displayDefaultError();
                 }
@@ -127,7 +127,7 @@ $(document).ready(function() {
             $.get("/groups/delete/"+type+"/"+kid, function(response) {
                 if(parseInt(response) > 0) {
                     displayMessage("Group deleted");
-                    monitor_groups_dt.row($("#row_"+kid)).remove().draw();
+                    monitor_groups_dt.row($("#monitor_groups_row_"+kid)).remove().draw();
                 } else {
                     displayDefaultError();
                 }
@@ -158,7 +158,7 @@ $(document).ready(function() {
                 monitor_groups_dt.draw(false);
             }
         } else {
-            var newrow = $('<tr id="row_'+e.id+'">')
+            var newrow = $('<tr id="'+e.group_type+'_row_'+e.id+'">')
                 .append('<td id="name_'+e.id+'">'+e.name+'</td>')
                 .append('<td id="count_'+e.id+'">'+e.count+'</td>')
                 .append('<td><button class="btn btn-xs btn-primary ktooltip edit_group" kid="'+e.id+'" ktitle="Edit this group and member servers" data-container="body"><i class="fa fa-pencil"></i></button>&nbsp;<button class="btn btn-xs btn-danger ktooltip delete" ktitle="Delete this group" kid="'+e.id+'" data-container="body"><i class="fa fa-trash"></i></button></td>');

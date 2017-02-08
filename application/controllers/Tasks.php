@@ -75,11 +75,10 @@ class Tasks extends MY_Controller {
             } else {
                 $this->setMessage("Task is no longer queued, cannot cancel", "danger");
             }
-            redirect("/tasks/view/$id");
         } else {
             $this->setMessage();
-            redirect("/tasks");
         }
+        redirect("/tasks");
     }
 
     // Display the submit task page/form
@@ -106,6 +105,26 @@ class Tasks extends MY_Controller {
             $this->setMessage();
             redirect("/tasks");
         }
-        
+    }
+
+    // Handle re-running an existing task
+    public function reRun($id) {
+        $check = $this->batch_model->getRow($id);
+        if(!empty($check)) {
+            $redo = array(
+                'status' => 'queued',
+                'command' => $check['command'],
+                'notes' => "Rerun of task id {$check['id']}",
+                'created_by' => $this->getUserId()
+            );
+            $id = $this->batch_model->setRow(0, $redo);
+            if($id > 0) {
+                $this->setMessage("Task queued");
+                redirect("/tasks");
+            } else {
+                $this->setMessage();
+                redirect("/tasks");
+            }
+        }
     }
 }

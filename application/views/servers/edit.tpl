@@ -33,7 +33,7 @@
         </div>
         <div class="form-group">
             <label class="control-label">Ansible Host Groups</label>
-            <select class="form-control selectpicker" data-container="body" data-live-search="true" name="groups[]" multiple>
+            <select class="form-control selectpicker" data-container="body" data-live-search="true" data-actions-box="true" name="groups[]" multiple>
                 {% for opt in groups_options %}
                 {{ opt | raw }}
                 {% endfor %}
@@ -41,7 +41,7 @@
         </div>
         <div class="form-group">
             <label class="control-label">Monitoring Groups</label>
-            <select class="form-control selectpicker" data-container="body" data-live-search="true" name="monitor_groups[]" multiple>
+            <select class="form-control selectpicker" data-container="body" data-live-search="true" data-actions-box="true" name="monitor_groups[]" multiple>
                 {% for opt in monitor_groups_options %}
                 {{ opt | raw }}
                 {% endfor %}

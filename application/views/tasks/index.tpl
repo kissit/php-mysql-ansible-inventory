@@ -26,7 +26,9 @@
                         <td>
                             <a href="/tasks/view/{{ row.id }}" class="btn btn-xs btn-info ktooltip" ktitle="View details" data-container="body"><i class="fa fa-info-circle"></i></a>
                             {% if row.status == 'queued' %}
-                            <button class="btn btn-xs btn-danger ktooltip cancel" ktitle="Cancel this task" kid="{{ row.id }}" data-container="body"><i class="fa fa-trash"></i></button>
+                            <a class="btn btn-xs btn-danger ktooltip confirm" ktitle="Cancel this task" href="/tasks/cancel/{{ row.id }}" data-container="body"><i class="fa fa-trash"></i></a>
+                            {% elseif row.status == 'complete' or row.status == 'cancelled' %}
+                            <button class="btn btn-xs btn-warning ktooltip confirm" ktitle="Run this task again" href="/tasks/reRun/{{ row.id }}" data-container="body"><i class="fa fa-repeat"></i></button>
                             {% endif %}
                         </td>
                     </tr>
@@ -46,7 +48,7 @@ $(document).ready(function() {
         "stateSave": true,
         "order": [[ 0, "desc" ]],
         "columnDefs": [
-            {"targets": -1, "orderable": false, "searchable": false, "width": "70px", "className": "text-center"}
+            {"targets": -1, "orderable": false, "searchable": false, "width": "70px", "className": "text-left"}
         ],
     });
     $("#datatable1").confirmation({
@@ -55,15 +57,16 @@ $(document).ready(function() {
         singleton: true,
         popout: true,
         rootSelector: "#datatable1",
-        selector: '.toggle_status',
+        selector: '.confirm',
         title: function() {
             return "Are you sure you want to " + $(this).attr('ktitle').toLowerCase() + "?";
         },
+            /*
         onConfirm: function(e) {
             var elem = $(this);
             var set_status = inverse(elem.attr('kstatus'));
             var kid = elem.attr('kid');
-            $.get("/servers/setStatus/"+kid+"/"+set_status, function(response) {
+            $.get("/tasks/cancel/"+kid+"/"+set_status, function(response) {
                 if(parseInt(response) > 0) {
                     displayMessage("Server status updated");
                     elem.attr('kstatus', set_status);
@@ -77,6 +80,7 @@ $(document).ready(function() {
                 }
             });
         },
+        */
     });
 });
 </script>

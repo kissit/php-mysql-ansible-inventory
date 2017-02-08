@@ -56,8 +56,11 @@ class Servers extends MY_Controller {
             $this->groups_model->setGroupsByServer($id, $groups);
             $this->monitor_groups_model->setGroupsByServer($id, $monitor_groups);
             $this->setMessage("Server saved");
-            $id = ($this->input->post('save_add') === null) ? $id : 0;
-            redirect("/servers/edit/$id");
+            if($this->input->post('save_add') === null) {
+                redirect("/servers");
+            } else {
+                redirect("/servers/edit");
+            }
         } else {
             $this->setMessage();
             redirect("/servers");
@@ -67,5 +70,17 @@ class Servers extends MY_Controller {
     // Handle a change of status call (Ajax)
     public function setStatus($id, $status) {
         echo $this->servers_model->setRow($id, array('status' => $status));
+    }
+
+    // Handle deleting a server
+    public function delete($id) {
+        $this->groups_model->deleteWhere(array('servers_id' => $id), 'servers_groups');
+        $this->monitor_groups_model->deleteWhere(array('servers_id' => $id), 'servers_monitor_groups');
+        if($this->servers_model->deleteRow($id)) {
+            $this->setMessage("Server deleted");
+        } else {
+            $this->setMessage();
+        }
+        redirect("/servers");
     }
 }

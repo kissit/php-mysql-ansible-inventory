@@ -28,10 +28,11 @@
                         <td>
                             <a href="/servers/edit/{{ row.id }}" class="btn btn-xs btn-primary ktooltip" ktitle="Edit this server" data-container="body"><i class="fa fa-pencil"></i></a>
                             {% if row.status == 1 %}
-                            <button id="toggle_btn_{{ row.id }}" class="btn btn-xs btn-danger ktooltip toggle_status" ktitle="Disable this server" kstatus="{{ row.status }}" kid="{{ row.id }}" data-container="body"><i id="toggle_icon_{{ row.id }}" class="fa fa-pause"></i></button>
+                            <button id="toggle_btn_{{ row.id }}" class="btn btn-xs btn-warning ktooltip toggle_status" ktitle="Disable this server" kstatus="{{ row.status }}" kid="{{ row.id }}" data-container="body"><i id="toggle_icon_{{ row.id }}" class="fa fa-pause"></i></button>
                             {% else %}
                             <button id="toggle_btn_{{ row.id }}" class="btn btn-xs btn-success ktooltip toggle_status" ktitle="Enable this server" kstatus="{{ row.status }}"  kid="{{ row.id }}" data-container="body"><i id="toggle_icon_{{ row.id }}" class="fa fa-play"></i></button>
                             {% endif %}
+                            <a href="/servers/delete/{{ row.id }}" class="btn btn-xs btn-danger ktooltip delete" ktitle="Delete this server" data-toggle="confirm"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -79,6 +80,16 @@ $(document).ready(function() {
                     displayDefaultError();
                 }
             });
+        },
+    });
+    $('[data-toggle=confirm]').confirmation({
+        rootSelector: '[data-toggle=confirm]',
+        placement: 'bottom',
+        container: 'body',
+        singleton: true,
+        popout: true,
+        title: function() {
+            return "Are you sure you want to " + $(this).attr('ktitle').toLowerCase() + "?";
         },
     });
 });
