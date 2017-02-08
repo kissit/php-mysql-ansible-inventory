@@ -8,13 +8,13 @@ class Tasks extends MY_Controller {
         if(!$this->config->item('tasks_on', 'custom')) {
             redirect("/");
         }
-        $this->load->model('batch_model');
+        $this->load->model('tasks_model');
     }
 
     // Display the main page/login screen
     public function index() {
         $data = array('page_title' => 'Ansible Tasks', 'rows' => array());
-        $rows = $this->batch_model->getRows();
+        $rows = $this->tasks_model->getRows();
         foreach($rows as $row) {
             if($row['created_by'] > 0) {
                 $row['owner'] = $this->ion_auth->user($row['created_by'])->row_array();
@@ -27,7 +27,7 @@ class Tasks extends MY_Controller {
     // Display the view task details screen
     public function view($id) {
         $data = array('page_title' => 'Task Details');
-        $task = $this->batch_model->getRow($id);
+        $task = $this->tasks_model->getRow($id);
         if(!empty($task)) {
             $task['owner'] = $this->ion_auth->user($task['created_by'])->row_array();
 
@@ -49,7 +49,7 @@ class Tasks extends MY_Controller {
     // Retrieve updated data about the task
     public function check($id) {
         $return = array();
-        $task = $this->batch_model->getRow($id);
+        $task = $this->tasks_model->getRow($id);
         if(!empty($task)) {
             $return['task'] = $task;
             if(!empty($task['output_file']) && file_exists($task['output_file'])) {
@@ -68,9 +68,9 @@ class Tasks extends MY_Controller {
     public function cancel($id) {
         $id = (int)$id;
         if($id > 0) {
-            $check = $this->batch_model->getRow($id);
+            $check = $this->tasks_model->getRow($id);
             if(!empty($check) && $check['status'] == 'queued') {
-                $this->batch_model->setRow($id, array('status' => 'cancelled'));
+                $this->tasks_model->setRow($id, array('status' => 'cancelled'));
                 $this->setMessage("Task cancelled");
             } else {
                 $this->setMessage("Task is no longer queued, cannot cancel", "danger");
@@ -97,7 +97,7 @@ class Tasks extends MY_Controller {
         $post['status'] = 'queued';
         $post['created_by'] = $this->getUserId();
         
-        $id = $this->batch_model->setRow(0, $post);
+        $id = $this->tasks_model->setRow(0, $post);
         if($id > 0) {
             $this->setMessage("Task queued");
             redirect("/tasks");
@@ -109,7 +109,7 @@ class Tasks extends MY_Controller {
 
     // Handle re-running an existing task
     public function reRun($id) {
-        $check = $this->batch_model->getRow($id);
+        $check = $this->tasks_model->getRow($id);
         if(!empty($check)) {
             $redo = array(
                 'status' => 'queued',
@@ -117,7 +117,7 @@ class Tasks extends MY_Controller {
                 'notes' => "Rerun of task id {$check['id']}",
                 'created_by' => $this->getUserId()
             );
-            $id = $this->batch_model->setRow(0, $redo);
+            $id = $this->tasks_model->setRow(0, $redo);
             if($id > 0) {
                 $this->setMessage("Task queued");
                 redirect("/tasks");

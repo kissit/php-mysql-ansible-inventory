@@ -3,15 +3,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /*
  * Controller used for running batch processes from the command line.  For instance, calling it as follows:
  * 
- * php public/index.php batch processAnsibleQueue
+ * php public/index.php cron/tasks processAnsibleQueue
  */
-class Batch extends CI_Controller {
+class Tasks extends CI_Controller {
     
     private $cmd_log = '';
 
     public function __construct() {
         parent::__construct();
-        $this->load->model('batch_model');
+        $this->load->model('tasks_model');
         $this->load->library('messages');
         $this->load->library('locking');
         $this->config->load('custom', TRUE);
@@ -69,7 +69,7 @@ class Batch extends CI_Controller {
             // Check for queue'd requests if we can change to the ansible project directory
             $ansible_dir = $this->config->item('ansible_project_path', 'custom');
             if(chdir($ansible_dir)) {    
-                $queue = $this->batch_model->getRows(array('status' => 'queued'));
+                $queue = $this->tasks_model->getRows(array('status' => 'queued'));
             } else {
                 $queue = array();
                 echo date("Y-m-d H:i:s") . " -> ERROR: Cannot change to ansible directory: $ansible_dir\n";
@@ -84,7 +84,7 @@ class Batch extends CI_Controller {
                     $this->writeCmdLog("Starting to process task id {$id}");
 
                     // Update our state in the DB
-                    $this->batch_model->setRow($id, array('status' => 'running', 'output_file' => $this->cmd_log, 'start_date' => date("Y-m-d H:i:s", $task_start)));
+                    $this->tasks_model->setRow($id, array('status' => 'running', 'output_file' => $this->cmd_log, 'start_date' => date("Y-m-d H:i:s", $task_start)));
                     
                     // Build the command (or use a raw one if passed)
                     $cmd = null;
@@ -101,7 +101,7 @@ class Batch extends CI_Controller {
 
                             // Update our cmd in the DB
                             $this->writeCmdLog("COMMAND BUILT AS: $cmd");
-                            $this->batch_model->setRow($id, array('command' => $cmd));
+                            $this->tasks_model->setRow($id, array('command' => $cmd));
                         } else {
                             $this->writeCmdLog("ERROR: unable to build command");
                         }
@@ -133,10 +133,10 @@ class Batch extends CI_Controller {
                     }
 
                     $this->writeCmdLog($log);
-                    $this->batch_model->setRow($id, array('status' => $task_status, 'end_date' => date("Y-m-d H:i:s")));
+                    $this->tasks_model->setRow($id, array('status' => $task_status, 'end_date' => date("Y-m-d H:i:s")));
                 } else {
                     $this->writeCmdLog("ERROR: Log directory is not writeable for task id {$id}");
-                    $this->batch_model->setRow($id, array('status' => 'error', 'end_date' => date("Y-m-d H:i:s")));
+                    $this->tasks_model->setRow($id, array('status' => 'error', 'end_date' => date("Y-m-d H:i:s")));
                 }
             }
             $this->locking->clearLock();

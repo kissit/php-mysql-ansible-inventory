@@ -7,7 +7,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 
-CREATE TABLE `batch` (
+CREATE TABLE `tasks` (
   `id` int(10) UNSIGNED NOT NULL,
   `status` enum('queued','running','complete','error','cancelled') NOT NULL DEFAULT 'queued',
   `command` text NOT NULL,
@@ -107,7 +107,7 @@ CREATE TABLE `servers_monitor_groups` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-ALTER TABLE `batch`
+ALTER TABLE `tasks`
   ADD PRIMARY KEY (`id`),
   ADD KEY `status_idx` (`status`);
 
@@ -143,7 +143,7 @@ ALTER TABLE `servers_monitor_groups`
   ADD PRIMARY KEY (`servers_id`,`monitor_groups_id`);
 
 
-ALTER TABLE `batch`
+ALTER TABLE `tasks`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `groups`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
