@@ -92,13 +92,13 @@ $(document).ready(function() {
     $("#log_view").slimScroll({
         size: '8px',
         color: '#286090',
-        alwaysVisible: true,
         railVisible: true,
         railColor: '#286090',
         railOpacity: 0.2,
         allowPageScroll: false,
         disableFadeOut: false,
         start: 'bottom',
+        height: '500px',
     });
     $("#refresh").click(function() {
         blockElement("refresh_block");
