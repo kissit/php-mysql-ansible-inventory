@@ -98,7 +98,7 @@ $(document).ready(function() {
             $.get("/servers/delete/"+kid, function(response) {
                 if(parseInt(response) > 0) {
                     displayMessage("Server deleted");
-                    datatable1.row($("#server_row_"+kid)).remove().draw();
+                    datatable1.row($("#server_row_"+kid)).remove().draw(false);
                 } else {
                     displayDefaultError();
                 }
