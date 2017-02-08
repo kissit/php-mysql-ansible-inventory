@@ -2,7 +2,7 @@
 {% block content %}
 {% include "servers/page_heading.tpl" %}
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12" id="datatable1_col">
         <div class="dataTable_wrapper table-responsive container-fluid">
             <table class="table table-striped table-bordered table-hover" id="datatable1">
                 <thead>
@@ -18,7 +18,7 @@
                 </thead>
                 <tbody>
                     {% for row in rows %}
-                    <tr>
+                    <tr id="server_row_{{ row.id }}">
                         <td>{{ row.server_name }}</td>
                         <td>{{ row.private_ip }}</td>
                         <td>{{ row.public_ip }}</td>
@@ -32,7 +32,7 @@
                             {% else %}
                             <button id="toggle_btn_{{ row.id }}" class="btn btn-xs btn-success ktooltip toggle_status" ktitle="Enable this server" kstatus="{{ row.status }}"  kid="{{ row.id }}" data-container="body"><i id="toggle_icon_{{ row.id }}" class="fa fa-play"></i></button>
                             {% endif %}
-                            <a href="/servers/delete/{{ row.id }}" class="btn btn-xs btn-danger ktooltip delete" ktitle="Delete this server" data-toggle="confirm"><i class="fa fa-trash"></i></a>
+                            <button class="btn btn-xs btn-danger ktooltip delete" ktitle="Delete this server" kid="{{ row.id }}"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -45,7 +45,7 @@
 {% block pagejs %}
 <script>
 $(document).ready(function() {
-    $('#datatable1').DataTable({
+    var datatable1 = $('#datatable1').DataTable({
         "responsive": true,
         "pageLength": 50,
         "stateSave": true,
@@ -82,14 +82,27 @@ $(document).ready(function() {
             });
         },
     });
-    $('[data-toggle=confirm]').confirmation({
-        rootSelector: '[data-toggle=confirm]',
+    $("#datatable1_col").confirmation({
+        rootSelector: '#datatable1_col',
+        selector: '.delete',
         placement: 'bottom',
         container: 'body',
         singleton: true,
         popout: true,
         title: function() {
             return "Are you sure you want to " + $(this).attr('ktitle').toLowerCase() + "?";
+        },
+        onConfirm: function(e) {
+            var elem = $(this);
+            var kid = elem.attr('kid');
+            $.get("/servers/delete/"+kid, function(response) {
+                if(parseInt(response) > 0) {
+                    displayMessage("Server deleted");
+                    datatable1.row($("#server_row_"+kid)).remove().draw();
+                } else {
+                    displayDefaultError();
+                }
+            });
         },
     });
 });

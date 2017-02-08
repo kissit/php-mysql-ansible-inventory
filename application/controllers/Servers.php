@@ -77,10 +77,9 @@ class Servers extends MY_Controller {
         $this->groups_model->deleteWhere(array('servers_id' => $id), 'servers_groups');
         $this->monitor_groups_model->deleteWhere(array('servers_id' => $id), 'servers_monitor_groups');
         if($this->servers_model->deleteRow($id)) {
-            $this->setMessage("Server deleted");
+            echo "1";
         } else {
-            $this->setMessage();
+            echo "0";
         }
-        redirect("/servers");
     }
 }
