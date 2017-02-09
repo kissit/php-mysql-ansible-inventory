@@ -60,27 +60,7 @@ $(document).ready(function() {
         selector: '.confirm',
         title: function() {
             return "Are you sure you want to " + $(this).attr('ktitle').toLowerCase() + "?";
-        },
-            /*
-        onConfirm: function(e) {
-            var elem = $(this);
-            var set_status = inverse(elem.attr('kstatus'));
-            var kid = elem.attr('kid');
-            $.get("/tasks/cancel/"+kid+"/"+set_status, function(response) {
-                if(parseInt(response) > 0) {
-                    displayMessage("Server status updated");
-                    elem.attr('kstatus', set_status);
-                    elem.attr('ktitle', capitalizeStr(getStatusText(set_status)) + " this server");
-                    $("#toggle_btn_"+kid).toggleClass("btn-danger");
-                    $("#toggle_btn_"+kid).toggleClass("btn-success");
-                    $("#toggle_icon_"+kid).toggleClass("fa-pause");
-                    $("#toggle_icon_"+kid).toggleClass("fa-play");
-                } else {
-                    displayDefaultError();
-                }
-            });
-        },
-        */
+        }
     });
 });
 </script>

@@ -93,8 +93,7 @@ $(document).ready(function() {
             return "Are you sure you want to " + $(this).attr('ktitle').toLowerCase() + "?";
         },
         onConfirm: function(e) {
-            var elem = $(this);
-            var kid = elem.attr('kid');
+            var kid = $(this).attr('kid');
             $.get("/servers/delete/"+kid, function(response) {
                 if(parseInt(response) > 0) {
                     displayMessage("Server deleted");

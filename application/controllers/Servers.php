@@ -19,7 +19,7 @@ class Servers extends MY_Controller {
 
     // Display the add/edit server page
     public function edit($id = 0) {
-        $data = array();
+        $data = array('row' => array());
         $id = (int)$id;
         $selected_monitor_groups = $selected_groups = array();
 
