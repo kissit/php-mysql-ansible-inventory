@@ -13,6 +13,10 @@
             </select>
         </div>
         <div class="form-group">
+            <label class="control-label">Provide limit criteria</label>
+            <input class="form-control" type="text" name="preconfigured_task_limit">
+        </div>
+        <div class="form-group">
             <button type="submit" class="btn btn-primary"><i class="fa fa-check-circle"></i>&nbsp;&nbsp;Submit Task&nbsp;</button>&nbsp;
             <a class="btn btn-default" href="/tasks"><i class="fa fa-backward"></i>&nbsp;&nbsp;Cancel&nbsp;</a>
         </div>

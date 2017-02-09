@@ -106,6 +106,7 @@ class Tasks extends MY_Controller {
                 redirect("/tasks/submit");
             } else {
                 $post['command'] = $task['command'];
+                $post['command_limit'] = (string)$this->input->post('preconfigured_task_limit');
                 $post['notes'] = "Submitted from preconfigured task {$task['name']} ($preconfigured_task)";
             }
         } elseif(!empty($this->input->post('raw_command'))) {
