@@ -71,8 +71,16 @@
                 </ul>
                 <ul class="nav navbar-nav pull-right navbar_left" style="margin-right: 30px;">
                     {% if tasks_on %}
-                    <li>
-                        <a href="/tasks">Tasks</a>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tasks&nbsp;<i class="fa fa-caret-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/tasks">Task log</a>
+                            </li>
+                            <li>
+                                <a href="/tasks/preconfiguredTasks">Manage preconfigured tasks</a>
+                            </li>
+                        </ul>
                     </li>
                     {% endif %}
                     <li>
@@ -82,7 +90,7 @@
                         <a href="/groups">Groups</a>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin&nbsp;<i class="fa fa-caret-down"></i></a>
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="/admin/users">Manage Users</a>
@@ -96,14 +104,12 @@
     </nav>
     <div class="container">
         {% block content %}{% endblock %}
-        <footer>
-            <div class="row">
-                <div class="col-md-12 text-right">
-                    <p>Powered by <a href="https://github.com/kissit/phpMyAnsibleAdmin">phpMyAnsibleInventory</a></p>
-                </div>
-            </div>
-        </footer>
     </div>
+    <footer class="sticky">
+        <div class="container">
+            <p class="text-right">Powered by <a href="https://github.com/kissit/phpMyAnsibleAdmin">phpMyAnsibleInventory</a></p>
+        </div>
+    </footer>
 </body>
 <!-- jQuery -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>

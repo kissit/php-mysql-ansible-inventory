@@ -13,9 +13,11 @@ class Tasks extends MY_Controller {
 
     // Display the main page/login screen
     public function index() {
+        $this->load->helper('text');
         $data = array('page_title' => 'Ansible Tasks', 'rows' => array());
         $rows = $this->tasks_model->getRows();
         foreach($rows as $row) {
+            $row['notes'] = character_limiter($row['notes'], 30, "...");
             if($row['created_by'] > 0) {
                 $row['owner'] = $this->ion_auth->user($row['created_by'])->row_array();
             }
@@ -84,15 +86,34 @@ class Tasks extends MY_Controller {
     // Display the submit task page/form
     public function submit() {
         $data = array('page_title' => 'Submit Ansible Task');
+        $preconfigured_tasks = $this->tasks_model->getRows(array(), 'tasks_preconfigured');
+        foreach($preconfigured_tasks as $key => $row) {
+            $preconfigured_tasks[$key]['name'] = "{$row['name']} ({$row['command']})";
+        }
+        $data['preconfigured_tasks_options'] = $this->getOptions($preconfigured_tasks);
         $this->templateDisplay('tasks/submit.tpl', $data);
     }
 
     // Handle the submit of the task page/form
     public function doSubmit() {
-        $post = (array)$this->input->post('post');
-        $message = '';
-        if(!empty($this->input->post('raw_command'))) {
+        $post = array();
+        $preconfigured_task = (int)$this->input->post('preconfigured_task');
+        if($preconfigured_task > 0) {
+            // First handle a selected preconfigured task
+            $task = $this->tasks_model->getRow($preconfigured_task, 'tasks_preconfigured');
+            if(empty($task)) {
+                $this->setMessage();
+                redirect("/tasks/submit");
+            } else {
+                $post['command'] = $task['command'];
+                $post['notes'] = "Submitted from preconfigured task {$task['name']} ($preconfigured_task)";
+            }
+        } elseif(!empty($this->input->post('raw_command'))) {
+            // If no preconfigured task take a raw command if present
             $post['command'] = $this->input->post('raw_command');
+        } else {
+            // If nothing else take the piece by piece form
+            $post = (array)$this->input->post('post');
         }
         $post['status'] = 'queued';
         $post['created_by'] = $this->getUserId();
@@ -100,11 +121,10 @@ class Tasks extends MY_Controller {
         $id = $this->tasks_model->setRow(0, $post);
         if($id > 0) {
             $this->setMessage("Task queued");
-            redirect("/tasks");
         } else {
             $this->setMessage();
-            redirect("/tasks");
         }
+        redirect("/tasks");
     }
 
     // Handle re-running an existing task
@@ -125,6 +145,64 @@ class Tasks extends MY_Controller {
                 $this->setMessage();
                 redirect("/tasks");
             }
+        }
+    }
+
+    // Show the page to view and manage preconfigured tasks
+    public function preconfiguredTasks() {
+        $this->load->helper('text');
+        $data = array('page_title' => 'Manage Preconfigured Tasks');
+        $rows = $this->tasks_model->getRows(array(), 'tasks_preconfigured');
+        foreach($rows as $row) {
+            $row['description'] = character_limiter($row['description'], 50, "...");
+            if($row['created_by'] > 0) {
+                $row['owner'] = $this->ion_auth->user($row['created_by'])->row_array();
+            }
+            $data['rows'][] = $row;
+        }
+        $this->templateDisplay('tasks/preconfigured_tasks.tpl', $data);
+    }
+
+    // Show the edit preconfigured task form
+    public function editPreconfiguredTask($id = 0) {
+        $data = array();
+        $id = (int)$id;
+
+        // Lookup the task if specified
+        if($id > 0) {
+            $data['row'] = $this->tasks_model->getRow($id, 'tasks_preconfigured');
+        }
+        
+        if(!empty($data['row'])) {
+            $data['page_title'] = 'Edit Preconfigured Task';
+        } else {
+            $data['page_title'] = 'Add Preconfigured Task';
+        }
+        $this->templateDisplay('tasks/edit_preconfigured_task.tpl', $data);
+    }
+
+    // Handle the submit of the task page/form
+    public function setPreconfiguredTask() {
+        $id = (int)$this->input->post('id');
+        $post = (array)$this->input->post('post');
+        if($id <= 0) {
+            $post['created_by'] = $this->getUserId();
+        }
+        $id = $this->tasks_model->setRow($id, $post, 'tasks_preconfigured');
+        if($id > 0) {
+            $this->setMessage("Preconfigured task updated");
+        } else {
+            $this->setMessage();
+        }
+        redirect("/tasks/preconfiguredTasks");
+    }
+
+    // Handle deleting a preconfigured task
+    public function deletePreconfiguredTask($id) {
+        if($this->tasks_model->deleteRow($id, 'tasks_preconfigured')) {
+            echo "1";
+        } else {
+            echo "0";
         }
     }
 }
