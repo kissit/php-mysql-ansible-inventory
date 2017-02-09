@@ -75,10 +75,13 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tasks&nbsp;<i class="fa fa-caret-down"></i></a>
                         <ul class="dropdown-menu">
                             <li>
+                                <a href="/tasks/submit">Submit new task</a>
+                            </li>
+                            <li>
                                 <a href="/tasks">Task log</a>
                             </li>
                             <li>
-                                <a href="/tasks/preconfiguredTasks">Manage preconfigured tasks</a>
+                                <a href="/tasks/preconfiguredTasks">Preconfigured tasks</a>
                             </li>
                         </ul>
                     </li>

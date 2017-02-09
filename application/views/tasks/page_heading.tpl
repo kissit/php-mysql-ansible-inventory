@@ -8,7 +8,9 @@
             {% if task.id > 0 and task.status == 'queued' %}
             <button class="btn btn-danger" task_id="{{ task.id }}" id="cancel_task"><i class="fa fa-trash"></i>&nbsp;&nbsp;Cancel Task</button>
             {% endif %}
-            <a class="btn btn-primary" href="/tasks/submit"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Submit Task</a>
+            {% if not hide_submit %}
+            <a class="btn btn-primary" href="/tasks/submit"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Submit Task</a>&nbsp;
+            {% endif %}
             <a class="btn btn-primary" href="/tasks/editPreconfiguredTask"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Preconfigured Task</a>
         </div>
     </div>

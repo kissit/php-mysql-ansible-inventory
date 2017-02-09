@@ -27,7 +27,7 @@
                             <a href="/tasks/view/{{ row.id }}" class="btn btn-xs btn-info ktooltip" ktitle="View details" data-container="body"><i class="fa fa-info-circle"></i></a>
                             {% if row.status == 'queued' %}
                             <a class="btn btn-xs btn-danger ktooltip confirm" ktitle="Cancel this task" href="/tasks/cancel/{{ row.id }}" data-container="body"><i class="fa fa-trash"></i></a>
-                            {% elseif row.status == 'complete' or row.status == 'cancelled' %}
+                            {% else %}
                             <button class="btn btn-xs btn-warning ktooltip confirm" ktitle="Run this task again" href="/tasks/reRun/{{ row.id }}" data-container="body"><i class="fa fa-repeat"></i></button>
                             {% endif %}
                         </td>
@@ -48,7 +48,7 @@ $(document).ready(function() {
         "stateSave": true,
         "order": [[ 0, "desc" ]],
         "columnDefs": [
-            {"targets": -1, "orderable": false, "searchable": false, "width": "70px", "className": "text-left"}
+            {"targets": -1, "orderable": false, "searchable": false, "width": "40px"}
         ],
     });
     $("#datatable1").confirmation({

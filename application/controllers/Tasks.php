@@ -85,7 +85,7 @@ class Tasks extends MY_Controller {
 
     // Display the submit task page/form
     public function submit() {
-        $data = array('page_title' => 'Submit Ansible Task');
+        $data = array('page_title' => 'Submit Ansible Task', 'hide_submit' => true);
         $preconfigured_tasks = $this->tasks_model->getRows(array(), 'tasks_preconfigured');
         foreach($preconfigured_tasks as $key => $row) {
             $preconfigured_tasks[$key]['name'] = "{$row['name']} ({$row['command']})";
