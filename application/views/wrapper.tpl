@@ -21,6 +21,8 @@
     <link href="/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet">
     <!-- Multiselect plugin (http://loudev.com/#home) -->
     <link href="/lou-multi-select/css/multi-select.dist.css" rel="stylesheet">
+    <!-- Bootstrap datepicker -->
+    <link href="/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet">
     <!-- Custom CSS.  Keep this last -->
     <link href="/css/custom.css" rel="stylesheet">
     
@@ -75,13 +77,13 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tasks&nbsp;<i class="fa fa-caret-down"></i></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="/tasks/submit">Submit new task</a>
+                                <a href="/tasks/submit"><i class="fa fa-plus-circle fa-fw menu-icon"></i>Submit new task</a>
                             </li>
                             <li>
-                                <a href="/tasks">Task log</a>
+                                <a href="/tasks"><i class="fa fa-tasks fa-fw menu-icon"></i>Task log</a>
                             </li>
                             <li>
-                                <a href="/tasks/preconfiguredTasks">Preconfigured tasks</a>
+                                <a href="/tasks/preconfiguredTasks"><i class="fa fa-cogs fa-fw menu-icon"></i>Preconfigured tasks</a>
                             </li>
                         </ul>
                     </li>
@@ -96,7 +98,10 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin&nbsp;<i class="fa fa-caret-down"></i></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="/admin/users">Manage Users</a>
+                                <a href="/admin/users"><i class="fa fa-users fa-fw menu-icon"></i>Manage Users</a>
+                            </li>
+                            <li>
+                                <a href="/admin/cleanup"><i class="fa fa-history fa-fw menu-icon"></i>Cleanup Task History</a>
                             </li>
                         </ul>
                     </li>
@@ -138,6 +143,8 @@
 <script src="/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- BlockUI plugin (http://malsup.com/jquery/block/) -->
 <script src="/js/jquery.blockUI.js"></script>
+<!-- Bootstrap datepicker -->
+<script src="/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <!-- Custom JS -->
 <script src="/js/jquery.validate.defaults.js"></script>
 <script src="/js/utility.js"></script>

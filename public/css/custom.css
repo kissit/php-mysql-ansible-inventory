@@ -35,10 +35,21 @@ h3.page_title {
     color: #f0ad4e;
     text-decoration: none;
 }
+.dropdown-menu>li>a {
+    padding: 6px 20px;
+}
+.dropdown-menu>li>a:hover {
+    color: #262626;
+    text-decoration: none;
+    background-color: #FFC04C;
+}
 .well-info {
     color: #31708f;
     background-color: #d9edf7;
     border-color: #bce8f1;
+}
+.menu-icon {
+    margin-right: 10px;
 }
 
 /* Sticky footer */

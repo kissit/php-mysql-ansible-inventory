@@ -7,6 +7,12 @@ class Admin extends MY_Controller {
         $this->requireLoggedInUser();
     }
 
+    public function cleanup() {
+        $data = array();
+        //$data['rows'] = $this->ion_auth->users()->result_array();
+        $this->templateDisplay('admin/cleanup.tpl', $data);
+    }
+
     public function users() {
         $data = array();
         $data['rows'] = $this->ion_auth->users()->result_array();
