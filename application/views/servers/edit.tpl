@@ -14,8 +14,12 @@
             <input type="text" class="form-control" name="post[external_server_id]" value="{{ row.external_server_id }}">
         </div>
         <div class="form-group">
-            <label class="control-label">Public IP</label>
+            <label class="control-label">Public IPv4</label>
             <input type="text" class="form-control" name="post[public_ip]" value="{{ row.public_ip }}">
+        </div>
+	      <div class="form-group">
+            <label class="control-label">Public IPv6</label>
+            <input type="text" class="form-control" name="post[public_ip6]" value="{{ row.public_ip6 }}">
         </div>
         <div class="form-group">
             <label class="control-label">Private IP</label>
@@ -47,7 +51,7 @@
                 {% endfor %}
             </select>
         </div>
-        
+
     </div>
 </div>
 <div class="row">

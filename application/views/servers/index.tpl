@@ -10,6 +10,7 @@
                         <th>Name</th>
                         <th>Private IP</th>
                         <th>Public IP</th>
+                        <th>Public IPv6</th>
                         <th>App</th>
                         <th>Region</th>
                         <th>Created Date</th>
@@ -22,6 +23,7 @@
                         <td>{{ row.server_name }}</td>
                         <td>{{ row.private_ip }}</td>
                         <td>{{ row.public_ip }}</td>
+                        <td>{{ row.public_ip6 }}</td>
                         <td>{{ row.app }}</td>
                         <td>{{ row.region }}</td>
                         <td class="text-nowrap">{{ row.created_date | date("Y-m-d H:i")}}</td>
