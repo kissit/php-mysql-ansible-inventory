@@ -99,6 +99,7 @@ CREATE TABLE `servers` (
   `server_name` varchar(100) NOT NULL DEFAULT '',
   `private_ip` varchar(20) NOT NULL DEFAULT '',
   `public_ip` varchar(20) NOT NULL DEFAULT '',
+  `public_ip6` varchar(140) NOT NULL DEFAULT '',
   `app` varchar(20) NOT NULL DEFAULT '',
   `region` varchar(20) NOT NULL DEFAULT '',
   `status` tinyint(1) NOT NULL DEFAULT '1',
